@@ -15,7 +15,8 @@ def test_getpath(username, password):
     # now we have token, we can ask for the path
     url = 'http://127.0.0.1:5000/getpath'
 
-    resp = requests.get(url, auth=requests.auth.HTTPBasicAuth(token, None), data=json.dumps('dzien dobry'))
+    payload = {'stop1': 'pierwszy', 'stop2': 'drugi'}
+    resp = requests.post(url, auth=requests.auth.HTTPBasicAuth(token, None), data=json.dumps(payload))
     print(resp.text)
 
 

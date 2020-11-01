@@ -1,5 +1,5 @@
 import os
-from flask import Flask, abort, request, jsonify, g, url_for
+from flask import Flask, abort, request, jsonify, g
 from itsdangerous import (TimedJSONWebSignatureSerializer
                           as Serializer, BadSignature, SignatureExpired)
 from flask_sqlalchemy import SQLAlchemy
@@ -78,10 +78,11 @@ def new_user():
     return jsonify({'username': user.username}), 201
 
 
-@app.route('/getpath')
+@app.route('/getpath', methods=['POST'])
 @auth.login_required
-def get_resource(json_data):
-    return json_data
+def get_resource():
+    stops = request.get_json('data')
+    return stops
 
 
 if __name__ == '__main__':
