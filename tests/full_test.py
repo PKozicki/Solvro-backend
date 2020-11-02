@@ -18,7 +18,10 @@ def full_test(username, password):
     # print(resp)
 
     # print response full body as text
-    print(resp.text)
+    if resp.status_code == 201:
+        print(resp.text)
+    else:
+        print("User already exists")
 
 
     """token part"""
@@ -37,6 +40,7 @@ def full_test(username, password):
     url = 'http://127.0.0.1:5000/stops'
 
     resp = requests.get(url, auth=requests.auth.HTTPBasicAuth(token, None))
+    print()
     pprint.pprint(resp.text)
 
     url = 'http://127.0.0.1:5000/path'
@@ -44,6 +48,7 @@ def full_test(username, password):
     payload = {'source': 'Przystanek Zdenerwowany frontend developer',
                'target': 'Przystanek Odważny frontend developer'}
     resp = requests.post(url, auth=requests.auth.HTTPBasicAuth(token, None), data=json.dumps(payload))
+    print()
     pprint.pprint(resp.text)
 
 
