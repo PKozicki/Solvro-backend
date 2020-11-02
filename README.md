@@ -21,5 +21,5 @@ Do sprawdzenia poszczególnych funkcji napisałem kilka skryptów testujących (
 
 ### Todos
 
- - napisać więcej dokładniejszych testów
- - dodać swagger
+ - więcej dokładniejszych testów
+ - swagger
