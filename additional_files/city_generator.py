@@ -44,5 +44,5 @@ if __name__ == "__main__":
     generate_distances(city_plan)
 
     # write city to file
-    with open("solvro_city.json", mode="w") as file:
+    with open("../solvro_city.json", mode="w") as file:
         file.write(json.dumps(nx.node_link_data(city_plan), indent=4, sort_keys=True))
