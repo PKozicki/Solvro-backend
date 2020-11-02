@@ -18,3 +18,8 @@ Do sprawdzenia poszczególnych funkcji napisałem kilka skryptów testujących (
   - SQL
   - JSON
   - Password encryption
+
+### Todos
+
+ - napisać więcej dokładniejszych testów
+ - dodać swagger
