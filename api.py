@@ -5,6 +5,8 @@ from itsdangerous import (TimedJSONWebSignatureSerializer
 from flask_sqlalchemy import SQLAlchemy
 from flask_httpauth import HTTPBasicAuth
 from passlib.apps import custom_app_context as pwd_context
+import json
+import find_path
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'aplikacja imitujaca jakdojade'
@@ -26,7 +28,7 @@ class User(db.Model):
     def verify_password(self, password):
         return pwd_context.verify(password, self.password_hash)
 
-    def generate_auth_token(self, expiration=300):
+    def generate_auth_token(self, expiration=30):
         s = Serializer(app.config['SECRET_KEY'], expires_in=expiration)
         return s.dumps({'id': self.id})
 
@@ -59,8 +61,8 @@ def verify_password(username_or_token, password):
 @app.route('/gettoken')
 @auth.login_required
 def get_auth_token():
-    token = g.user.generate_auth_token(300)
-    return jsonify({'token': token.decode('ascii'), 'duration': 300})
+    token = g.user.generate_auth_token(30)
+    return jsonify({'token': token.decode('ascii'), 'duration': 30})
 
 
 @app.route('/register', methods=['POST'])
@@ -78,11 +80,23 @@ def new_user():
     return jsonify({'username': user.username}), 201
 
 
-@app.route('/getpath', methods=['POST'])
+@app.route('/stops', methods=['GET'])
+@auth.login_required
+def stops():
+    with open('solvro_city.json') as f:
+        data = json.load(f)['nodes']
+    for node in data:
+        node.pop('id')
+        node['name'] = node['stop_name']
+        del node['stop_name']
+    return json.dumps(data)
+
+
+@app.route('/path', methods=['POST'])
 @auth.login_required
 def get_resource():
-    stops = request.get_json('data')
-    return stops
+    result, distance = find_path.dijkstra(request.get_json('data')['source'], request.get_json('data')['target'])
+    return jsonify({'stops': result, 'distance': distance}), 200
 
 
 if __name__ == '__main__':

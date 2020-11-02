@@ -22,4 +22,4 @@ def test_register(username, password):
     print(resp.text)
 
 
-test_register('majster', 'kozicki')
+test_register('uzytkownik', 'jegohaslo')

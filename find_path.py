@@ -58,8 +58,8 @@ def dijkstra(start, end):
                 list_of_predecessors[neighbour[0]] = u_key
                 queue.append(graph[neighbour[0]])
 
-    print(list_of_predecessors)
-    print(distance_list)
+    # print(list_of_predecessors)
+    # print(distance_list)
 
     def path_finder(list_of_predecessors, source, destination):
         path = []
@@ -73,11 +73,13 @@ def dijkstra(start, end):
         path.reverse()
         return path
 
-    print(start_id, end_id)
-    print(path_finder(list_of_predecessors, start_id, end_id))
+    # print(start_id, end_id)
+    # print(path_finder(list_of_predecessors, start_id, end_id))
+    pprint.pprint(data)
+
+    path_list = [{'name': data['nodes'][i]['stop_name']} for i in path_finder(list_of_predecessors, start_id, end_id)]
+
+    return path_list, distance_list[end_id]
 
 
-
-
-
-dijkstra("Przystanek Zdenerwowany frontend developer", "Przystanek Odważny frontend developer")
+# dijkstra("Przystanek Zdenerwowany frontend developer", "Przystanek Odważny frontend developer")

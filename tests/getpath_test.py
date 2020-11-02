@@ -1,5 +1,4 @@
-import requests
-import json
+import requests, json
 
 
 def test_getpath(username, password):
@@ -13,11 +12,13 @@ def test_getpath(username, password):
     token = resp.json()['token']
 
     # now we have token, we can ask for the path
-    url = 'http://127.0.0.1:5000/getpath'
+    url = 'http://127.0.0.1:5000/path'
 
-    payload = {'stop1': 'pierwszy', 'stop2': 'drugi'}
+    payload = {'source': 'Przystanek Zdenerwowany frontend developer',
+               'target': 'Przystanek Odważny frontend developer'}
     resp = requests.post(url, auth=requests.auth.HTTPBasicAuth(token, None), data=json.dumps(payload))
+    assert resp.status_code == 200
     print(resp.text)
 
 
-test_getpath('majster', 'kozicki')
+test_getpath('uzytkownik', 'jegohaslo')

@@ -15,4 +15,4 @@ def test_gettoken(username, password):
     print(resp.text)
 
 
-test_gettoken('majster', 'kozicki')
+test_gettoken('uzytkownik', 'jegohaslo')
