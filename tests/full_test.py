@@ -59,21 +59,21 @@ def full_test(username, password):
     print()
     pprint.pprint(resp.text)
 
-    # when source is the target
+    # when the source is the target
     payload = {'source': 'Przystanek Zdenerwowany frontend developer',
                'target': 'Przystanek Zdenerwowany frontend developer'}
     resp = requests.post(url, auth=requests.auth.HTTPBasicAuth(token, None), data=json.dumps(payload))
     print()
     pprint.pprint(resp.text)
 
-    # when one of stops doesn't exist
+    # when one of the stops doesn't exist
     payload = {'source': 'Przystanek Zdenerwowany frontend developer',
                'target': 'Przystanek Nieistniejący kabanos'}
     resp = requests.post(url, auth=requests.auth.HTTPBasicAuth(token, None), data=json.dumps(payload))
     print()
     pprint.pprint(resp.text)
 
-    # when payload is incomplete
+    # when the payload is incomplete
     payload = {'source': 'Przystanek Zdenerwowany frontend developer'}
     resp = requests.post(url, auth=requests.auth.HTTPBasicAuth(token, None), data=json.dumps(payload))
     print()

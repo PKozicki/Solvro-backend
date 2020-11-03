@@ -11,6 +11,7 @@ import find_path
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'aplikacja imitujaca jakdojade'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 auth = HTTPBasicAuth()

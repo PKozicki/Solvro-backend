@@ -7,11 +7,10 @@ def test_gettoken(username, password):
 
     resp = requests.get(url, auth=requests.auth.HTTPBasicAuth(username, password))
 
-    # Validate response headers and body contents, e.g. status code.
     assert resp.status_code == 200
     print(resp)
 
-    # print response full body as text
+    # print response body as text
     print(resp.text)
 
 

@@ -6,7 +6,6 @@ def test_getpath(username, password):
 
     resp = requests.get(url, auth=requests.auth.HTTPBasicAuth(username, password))
 
-    # Validate response headers and body contents, e.g. status code.
     assert resp.status_code == 200
 
     token = resp.json()['token']
@@ -16,6 +15,7 @@ def test_getpath(username, password):
 
     payload = {'source': 'Przystanek Zdenerwowany frontend developer',
                'target': 'Przystanek Odważny frontend developer'}
+    # password value is None because we already have a token
     resp = requests.post(url, auth=requests.auth.HTTPBasicAuth(token, None), data=json.dumps(payload))
     assert resp.status_code == 200
     print(resp.text)

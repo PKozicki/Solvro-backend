@@ -11,14 +11,13 @@ def test_register(username, password):
     # Body
     payload = {'username': username, 'password': password}
 
-    # convert dict to json string by json.dumps() for body data.
+    # convert dict to json string by json.dumps()
     resp = requests.post(url, headers=headers, data=json.dumps(payload))
 
-    # Validate response headers and body contents, e.g. status code.
     assert resp.status_code == 201
     print(resp)
 
-    # print response full body as text
+    # print response body as text
     print(resp.text)
 
 
