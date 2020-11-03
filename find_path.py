@@ -4,10 +4,27 @@ import pprint
 
 
 def dijkstra(start, end):
-    # first we need to extract data from json and make graph from nodes (stops)
+    # if source == target
+    if start == end:
+        return [{'name': start}], 0
+
+    # first we need to extract data from json
     with open('solvro_city.json') as f:
         data = json.load(f)
 
+    # check if given stops exist
+    is_start = False
+    is_end = False
+    for dictionary in data['nodes']:
+        if dictionary['stop_name'] == start:
+            is_start = True
+        elif dictionary['stop_name'] == end:
+            is_end = True
+    if not is_start or not is_end:
+        print('cokolwiek')
+        return [{'name': 'błędne nazwy przystanków'}], None
+
+    # and make graph from nodes (stops)
     graph = dict()
     for item in data['nodes']:
         graph[item['id']] = []
@@ -75,11 +92,11 @@ def dijkstra(start, end):
 
     # print(start_id, end_id)
     # print(path_finder(list_of_predecessors, start_id, end_id))
-    pprint.pprint(data)
+    # pprint.pprint(data)
 
     path_list = [{'name': data['nodes'][i]['stop_name']} for i in path_finder(list_of_predecessors, start_id, end_id)]
 
     return path_list, distance_list[end_id]
 
 
-# dijkstra("Przystanek Zdenerwowany frontend developer", "Przystanek Odważny frontend developer")
+dijkstra("Przystanek Zdenerwowany frontend developer", "Przystanek frontend developer")

@@ -95,7 +95,10 @@ def stops():
 @app.route('/path', methods=['POST'])
 @auth.login_required
 def get_resource():
-    result, distance = find_path.dijkstra(request.get_json('data')['source'], request.get_json('data')['target'])
+    try:
+        result, distance = find_path.dijkstra(request.get_json('data')['source'], request.get_json('data')['target'])
+    except KeyError:
+        return jsonify({'stops': None, 'distance': None}), 500
     return jsonify({'stops': result, 'distance': distance}), 200
 
 
