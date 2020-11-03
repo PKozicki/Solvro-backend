@@ -18,8 +18,14 @@ Do sprawdzenia poszczególnych funkcji napisałem kilka skryptów testujących (
   - SQL
   - JSON
   - Password encryption
+  
+# Zawartość
+  - api.py, czyli rdzeń projektu
+  - find_path.py zawierający algorytm Dijkstry zmodyfikowany do potrzeb i specyfikacji
+  - niewielkie aplikacje testujące niektóre funkcje
+  - full_test.py przedstawiający pełne działanie aplikacji wraz z obsługą wyjątków
 
 ### Todos
 
- - więcej dokładniejszych testów
+ - rozbudowanie aplikacji testującej
  - swagger
