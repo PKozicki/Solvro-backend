@@ -21,7 +21,6 @@ def dijkstra(start, end):
         elif dictionary['stop_name'] == end:
             is_end = True
     if not is_start or not is_end:
-        print('cokolwiek')
         return [{'name': 'błędne nazwy przystanków'}], None
 
     # and make graph from nodes (stops)

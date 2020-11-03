@@ -82,7 +82,7 @@ def full_test(username, password):
     pprint.pprint(resp.text)
 
 
-# full_test('fulluzytkownik', 'jegofullhaslo')
+full_test('fulluzytkownik', 'jegofullhaslo')
 
 """
 user = input()
