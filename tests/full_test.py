@@ -31,7 +31,7 @@ def full_test(username, password):
 
     resp = requests.get(url, auth=requests.auth.HTTPBasicAuth(username, password))
 
-    assert resp.status_code == 200
+    assert resp.status_code == 201
 
     # we get the token
     token = resp.json()['token']
@@ -48,33 +48,33 @@ def full_test(username, password):
     # password is None because we already have a token
     resp = requests.get(url, auth=requests.auth.HTTPBasicAuth(token, None))
     print()
-    pprint.pprint(resp.text)
+    print(resp.text)
 
     url = 'http://127.0.0.1:5000/path'
 
     # find a path example
-    payload = {'source': 'Przystanek Zdenerwowany frontend developer',
-               'target': 'Przystanek Odważny frontend developer'}
+    payload = {'source': 1,
+               'target': 29}
     resp = requests.post(url, auth=requests.auth.HTTPBasicAuth(token, None), data=json.dumps(payload))
     print()
     pprint.pprint(resp.text)
 
     # when the source is the target
-    payload = {'source': 'Przystanek Zdenerwowany frontend developer',
-               'target': 'Przystanek Zdenerwowany frontend developer'}
+    payload = {'source': 1,
+               'target': 1}
     resp = requests.post(url, auth=requests.auth.HTTPBasicAuth(token, None), data=json.dumps(payload))
     print()
     pprint.pprint(resp.text)
 
     # when one of the stops doesn't exist
-    payload = {'source': 'Przystanek Zdenerwowany frontend developer',
-               'target': 'Przystanek Nieistniejący kabanos'}
+    payload = {'source': 1,
+               'target': 42}
     resp = requests.post(url, auth=requests.auth.HTTPBasicAuth(token, None), data=json.dumps(payload))
     print()
     pprint.pprint(resp.text)
 
     # when the payload is incomplete
-    payload = {'source': 'Przystanek Zdenerwowany frontend developer'}
+    payload = {'source': 1}
     resp = requests.post(url, auth=requests.auth.HTTPBasicAuth(token, None), data=json.dumps(payload))
     print()
     # <Response [500]>

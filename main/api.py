@@ -6,7 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_httpauth import HTTPBasicAuth
 from passlib.apps import custom_app_context as pwd_context
 import json
-import find_path
+from main import find_path
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'aplikacja imitujaca jakdojade'
@@ -35,9 +35,9 @@ class User(db.Model):
 
     @staticmethod
     def verify_auth_token(token):
-        s = Serializer(app.config['SECRET_KEY'])
+        serializer = Serializer(app.config['SECRET_KEY'])
         try:
-            data = s.loads(token)
+            data = serializer.loads(token)
         except SignatureExpired:
             return None  # expired token
         except BadSignature:
@@ -63,7 +63,7 @@ def verify_password(username_or_token, password):
 @auth.login_required
 def get_auth_token():
     token = g.user.generate_auth_token(30)
-    return jsonify({'token': token.decode('ascii'), 'duration': 30})
+    return jsonify({'token': token.decode('ascii'), 'duration': 30}), 201
 
 
 @app.route('/register', methods=['POST'])
@@ -73,7 +73,7 @@ def new_user():
     if username is None or password is None:
         abort(400)  # missing arguments
     if User.query.filter_by(username=username).first() is not None:
-        abort(400)  # existing user
+        abort(409)  # existing user
     user = User(username=username)
     user.hash_password(password)
     db.session.add(user)
@@ -86,24 +86,20 @@ def new_user():
 def stops():
     with open('solvro_city.json') as f:
         data = json.load(f)['nodes']
-    for node in data:
-        node.pop('id')
-        node['name'] = node['stop_name']
-        del node['stop_name']
-    return json.dumps(data)
+        return json.dumps(data), 200
 
 
 @app.route('/path', methods=['POST'])
 @auth.login_required
 def get_resource():
     try:
-        result, distance = find_path.dijkstra(request.get_json('data')['source'], request.get_json('data')['target'])
+        result, distance, status = find_path.dijkstra(request.get_json('data')['source'], request.get_json('data')['target'])
     except KeyError:
-        return jsonify({'stops': None, 'distance': None}), 500
-    return jsonify({'stops': result, 'distance': distance}), 200
+        return jsonify({'nodes': None, 'distance': None, 'status': {3: "Key error"}}), 400
+    return jsonify({'nodes': result, 'distance': distance, 'status': status}, 200)
 
 
 if __name__ == '__main__':
-    if not os.path.exists('db.sqlite'):
+    if not os.path.exists('main/db.sqlite'):
         db.create_all()
     app.run(debug=True)
